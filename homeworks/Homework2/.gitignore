@@ -12,3 +12,5 @@ rag_data/txt/*
 rag_data/pdf/*
 !rag_data/pdf/.gitkeep
 credentials/
+rag_data/json/*
+!rag_data/json/sample.json

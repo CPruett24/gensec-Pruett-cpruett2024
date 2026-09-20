@@ -1,4 +1,4 @@
-"""Index local TXT/PDF documents, adapted from instructor 07_rag_loaddb.py."""
+"""Index TXT/PDF/JSON documents using the instructor's RAG ingestion flow."""
 
 from langchain_community.document_loaders import (
     DirectoryLoader,
@@ -8,6 +8,7 @@ from langchain_community.document_loaders import (
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from app import DATA_DIRECTORY, get_sources, open_vectorstore
+from json_loader import CustomJSONLoader
 
 
 def load_docs(docs, vectorstore):
@@ -20,7 +21,7 @@ def load_docs(docs, vectorstore):
 
 
 def main():
-    """Load local text and PDF files into the persistent RAG database."""
+    """Load local TXT, PDF, and custom JSON documents into the RAG database."""
     docs = DirectoryLoader(
         str(DATA_DIRECTORY / "txt"),
         glob="**/*.txt",
@@ -28,8 +29,13 @@ def main():
         loader_kwargs={"encoding": "utf-8"},
     ).load()
     docs.extend(PyPDFDirectoryLoader(str(DATA_DIRECTORY / "pdf"), recursive=True).load())
+    docs.extend(DirectoryLoader(
+        str(DATA_DIRECTORY / "json"),
+        glob="**/*.json",
+        loader_cls=CustomJSONLoader,
+    ).load())
     if not docs:
-        print("Add TXT files to rag_data/txt or PDFs to rag_data/pdf, then run again.")
+        print("Add files to rag_data/txt, rag_data/pdf, or rag_data/json, then run again.")
         return
     vectorstore = open_vectorstore()
     count = load_docs(docs, vectorstore)

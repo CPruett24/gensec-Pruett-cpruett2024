@@ -3,7 +3,7 @@
 This is the initial foundation for a NotebookLM-like application. It loads local
 documents, splits them, stores Vertex AI embeddings in Chroma, retrieves relevant
 chunks, and answers questions with Gemini through a terminal or Chainlit UI.
-No custom homework feature has been added.
+The custom Homework 2 feature adds JSON support through a LangChain `BaseLoader` subclass.
 
 ## Instructor foundation
 
@@ -47,7 +47,7 @@ The embedding project needs Vertex AI access and billing/credits. Vertex AI
 embeddings use Google Cloud credentials; the AI Studio key is for chat. Secrets
 and project IDs are read from the environment. `uv run --env-file .env` loads the
 local file; if you set variables directly in PowerShell, omit `--env-file .env`.
-The local `.env`, credential directory, source documents, vector database, and
+The local `.env`, credential directory, private source documents, vector database, and
 generated application files are ignored by Git. Never place credential JSON
 files elsewhere inside the repository.
 
@@ -55,6 +55,7 @@ files elsewhere inside the repository.
 
 Place your UTF-8 `.txt` files under `rag_data/txt/` and text-based `.pdf` files
 under `rag_data/pdf/`. These folders start empty; no instructor datasets are copied.
+JSON files go under `rag_data/json/`, which includes the small `sample.json` demo.
 
 ```powershell
 uv run --env-file .env python 07_rag_loaddb.py
@@ -71,7 +72,34 @@ duplicates. To rebuild, stop the application and remove only this homework's
 `rag_data/.chromadb` directory before indexing again. PDF loading does not perform
 OCR. Indexing and answering require network access and may consume API credits.
 
+## Custom JSON loader
+
+`json_loader.py` defines `CustomJSONLoader(BaseLoader)` and implements
+`lazy_load()`; LangChain's inherited `load()` collects the resulting documents.
+It reads UTF-8 JSON (also accepting a BOM), emits one `Document` per top-level
+array item, and treats any other JSON root as one record. Nested field labels
+are retained with string, numeric, and boolean values; nulls and blank/empty
+records are skipped. Each document has an absolute `source` path and zero-based
+`record_index` metadata. Invalid JSON or unreadable files raise an error.
+
+The existing `07_rag_loaddb.py` uses `DirectoryLoader` with this custom loader,
+then sends JSON documents through the same splitter, Vertex AI embeddings, and
+Chroma storage as TXT/PDF documents. The prompt and retrieval chain are unchanged.
+No additional dependencies are needed.
+
+For a demo, run the indexing and `chainlit run app.py` commands above, then ask:
+"How do I reserve a study room at Harbor Library?" or "When is the research
+skills workshop?" Add your own `.json` files under `rag_data/json/` and rerun
+indexing (the append/duplicate behavior noted above still applies). Only the
+supplied sample JSON is included in Git by default.
+
 ## Validation
+
+Run the offline tests without API credentials:
+
+```powershell
+uv run --offline --locked python -m unittest discover -s tests -v
+```
 
 Dependency installation and offline smoke checks can validate imports, loaders,
 chunking, and the retrieval chain without calling Google. Full embedding and

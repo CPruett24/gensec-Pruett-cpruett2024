@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Library study rooms",
+    "description": "The fictional Harbor Library has three study rooms. Students can reserve a room for up to two hours.",
+    "reservation": {
+      "method": "Reserve at the library front desk.",
+      "student_id_required": true
+    }
+  },
+  {
+    "title": "Library workshops",
+    "description": "The fictional Harbor Library holds a research skills workshop every Tuesday at 3 PM.",
+    "location": "Learning Lab",
+    "topics": ["Finding reliable sources", "Organizing research notes"]
+  }
+]
