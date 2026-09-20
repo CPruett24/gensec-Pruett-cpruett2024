@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+.chainlit/
+.files/
+rag_data/.chromadb/
+rag_data/txt/*
+!rag_data/txt/.gitkeep
+rag_data/pdf/*
+!rag_data/pdf/.gitkeep
+credentials/

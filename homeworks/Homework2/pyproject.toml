@@ -1,0 +1,15 @@
+[project]
+name = "homework2-rag"
+version = "0.1.0"
+description = "Homework 2 baseline adapted from the instructor's LangChain RAG examples"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "chainlit",
+    "langchain-chroma",
+    "langchain-community",
+    "langchain-core",
+    "langchain-google-genai",
+    "langchain-google-vertexai",
+    "langchain-text-splitters",
+    "pypdf",
+]
