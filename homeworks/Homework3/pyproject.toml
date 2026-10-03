@@ -8,4 +8,7 @@ dependencies = [
     "langchain-experimental>=0.4,<0.5",
     "langchain-core>=1,<2",
     "langchain-google-genai>=4,<5",
+    "langchain-chroma>=1,<2",
+    "langchain-text-splitters>=1,<2",
+    "pypdf>=6,<7",
 ]

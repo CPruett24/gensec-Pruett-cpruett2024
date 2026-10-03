@@ -1,0 +1,13 @@
+Incident Response Course Notes
+
+The incident response process used in this example contains four phases:
+1. Preparation
+2. Detection and Analysis
+3. Containment, Eradication, and Recovery
+4. Post-Incident Activity
+
+During containment, responders should preserve relevant evidence before making destructive changes to affected systems.
+
+Logs should be collected from relevant systems when possible because they can help establish a timeline of events.
+
+After recovery, the team should conduct a post-incident review and document lessons learned.
