@@ -1,7 +1,8 @@
 # Homework 3 agent
 
-The CLI offers the built-in `terminal` tool and one custom tool,
-`security_knowledge`, for answers grounded in your local security/course notes.
+The CLI offers the built-in `terminal` tool and two custom tools:
+`security_knowledge` for answers grounded in your local security/course notes,
+and `file_security_analysis` for deterministic local file hashes and metadata.
 It prints tool calls, arguments, results, and the final agent answer.
 
 From `Homework3`, install dependencies with `uv sync`. Set the following
@@ -54,6 +55,35 @@ agent response. A follow-up such as "What must I preserve for that drill?" also
 checks conversation history. The agent decides which tool to call; visible
 tool output is the evidence it used retrieval. Ask about a fact absent from your
 notes to check that it reports insufficient evidence. Type `exit` or `quit` to stop.
+
+## Local file analysis
+
+`file_security_analysis` accepts a local file path, verifies it is a regular
+file, and returns its name, resolved path, size in bytes, and SHA-256, SHA-1,
+and MD5 hashes. It reads binary data in 1 MiB chunks using standard-library
+Python, without executing or modifying the file. Hashes fingerprint the file;
+the tool does not determine whether it contains malware. Invalid, missing,
+directory, and unreadable paths return a structured error.
+
+Relative paths resolve against the directory where you start the CLI. Absolute
+paths and `~` are supported, including paths containing spaces. The file should
+remain unchanged while it is being read. The file analysis tool needs no RAG
+index or embedding model setting; the conversational CLI still needs
+`GOOGLE_MODEL` and `GOOGLE_API_KEY`.
+
+From `Homework3`, run `uv run app.py` and enter:
+
+> Use file_security_analysis to calculate the SHA-256, SHA-1, and MD5 of
+> README.md and report its file name and size in bytes.
+
+Look for `Tool call: file_security_analysis`, the path arguments, and
+`Tool result:` containing `status: ok`, metadata, and all three hashes, followed
+by the agent's answer. Try `missing-file.bin` or `rag_data` to demonstrate errors.
+For a file elsewhere, include its full path in your request.
+
+The prompt and tool docstrings direct the agent to use file analysis for hashes
+and metadata, `security_knowledge` for questions grounded in course documents,
+and Terminal for shell operations.
 
 Offline verification (uses local test embeddings and fake model responses):
 

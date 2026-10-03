@@ -1,4 +1,4 @@
-"""Command-line Gemini agent with a Terminal tool and session chat history."""
+"""Gemini CLI agent with Terminal, security knowledge, and file analysis tools."""
 
 import platform
 import sys
@@ -9,11 +9,12 @@ from langchain_core.callbacks import BaseCallbackHandler
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 from config import required_env
+from file_security import file_security_analysis
 from rag import create_security_knowledge_tool
 
 
 class TerminalDisplayHandler(BaseCallbackHandler):
-    """Show Terminal and security knowledge tool activity in the CLI."""
+    """Show all agent tool calls, results, and errors in the CLI."""
 
     def on_tool_start(self, serialized, input_str: str, **kwargs) -> None:
         """Print the tool name and arguments before execution."""
@@ -31,7 +32,7 @@ class TerminalDisplayHandler(BaseCallbackHandler):
 
 
 def build_agent():
-    """Build a Gemini agent with Terminal and local security knowledge tools."""
+    """Build a Gemini agent with Terminal, RAG, and deterministic file analysis."""
     model = ChatGoogleGenerativeAI(
         model=required_env("GOOGLE_MODEL"),
         google_api_key=required_env("GOOGLE_API_KEY"),
@@ -42,10 +43,14 @@ def build_agent():
         tools=[
             *load_tools(["terminal"], allow_dangerous_tools=True),
             create_security_knowledge_tool(model),
+            file_security_analysis,
         ],
         system_prompt=(
             "You are a helpful conversational assistant. Use Terminal when "
             "shell commands are needed to fulfill the user's request. "
+            "Use file_security_analysis to calculate local file hashes "
+            "(SHA-256, SHA-1, MD5), file names, and sizes instead of Terminal. "
+            "Report the tool's computed values and errors accurately. "
             "Use security_knowledge for questions about the locally indexed "
             "security documents, course notes, and course-specific procedures. "
             "If that tool reports missing documents or insufficient evidence, "
