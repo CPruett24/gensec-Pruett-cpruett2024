@@ -17,7 +17,9 @@ spec.loader.exec_module(server)
 
 def test_list_log_files():
     """Discover the provided sample."""
-    assert server.list_log_files() == ["auth.log"]
+    assert server.list_log_files() == [
+        "auth.log", "exfiltration_attempt.log", "forged_authority.log", "instruction_override.log"
+    ]
 
 
 def test_read_allowed_file():
