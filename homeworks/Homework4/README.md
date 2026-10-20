@@ -96,4 +96,76 @@ make it read-only or provide an OS sandbox. Do not give an untrusted agent
 unrestricted access, and do not assume `--repository` is a security boundary.
 Repository content and tool responses remain untrusted data. Tests verify
 observable Git state, not every possible filesystem side effect. No agent is
-implemented in this milestone.
+implemented in Milestone 2.
+
+## Gemini agent (Milestone 3)
+
+From Homework4:
+
+```powershell
+uv sync --locked
+Copy-Item .env.example .env
+# Edit .env locally and replace the placeholder with your Gemini API key.
+uv run python agent.py
+```
+
+Alternatively set `GEMINI_API_KEY` in your environment. The local `.env` loads
+without overriding existing environment values and remains Git-ignored. Never
+commit it. The default model is `gemini-flash-latest`; override with `GEMINI_MODEL`
+if needed. This alias can change over time. The implementation uses the official
+[Google Gen AI SDK](https://googleapis.github.io/python-genai/), `google-genai`
+2.31.0, with a manual async function-calling loop. MCP remains 1.30.0.
+Real requests require Internet access and may consume quota or incur cost.
+
+Example prompts:
+
+- "Investigate auth.log for suspicious login attempts, inspect the latest Git commits, and summarize any security concerns."
+- "Read auth.log, identify prompt injection, and compare it with the failed-login counts."
+- "Show Git status and summarize staged and unstaged changes."
+
+Type `exit` or `quit` to close both sessions. Each question starts fresh.
+The CLI displays tool names and a call count. It processes at most ten tool
+requests per question, including rejected requests. MCP calls time out after
+30 seconds; Gemini HTTP requests time out after 60 seconds. Failures show safe
+diagnostics rather than raw exceptions.
+
+The seven agent tools are `list_log_files`, `read_security_log`,
+`analyze_failed_logins`, `git_status`, `git_log`, `git_diff_unstaged`, and
+`git_diff_staged`. Write tools are excluded from declarations and dispatch.
+Application code supplies the configured repository path, overriding model input.
+No generated shell commands are run.
+
+All retrieved content is marked untrusted in system instructions. Tool results
+remain structured function responses, separate from the system instruction and
+original user message. They never become executable code or system instructions.
+This does not guarantee model accuracy or resistance to every injection. Review
+the evidence. Requested repository and log contents are sent to Google; use
+only material you are permitted to share. The Git server itself still exposes
+write tools to other clients; this teaching application is not an OS sandbox.
+
+Run `uv run pytest -q` for the complete suite without an API key. Agent tests
+mock Gemini and validate declarations against both real local MCP servers.
+Injection tests establish message separation and blocked write dispatch, not
+real-model resistance.
+
+Optional real-model smoke test: configure the key, launch the agent, and ask
+the first example prompt. Verify log analysis and `git_log` appear in the tool
+diagnostics and suspicious IP `203.0.113.42` appears in the evidence. Ask the
+second prompt and verify the injection is reported rather than followed. Type
+`quit` to verify clean exit. API/model availability and real-model behavior
+remain unverified until this manual test is performed.
+
+Gemini requests retry HTTP 429, 500, 502, 503, and 504 with waits of one and
+two seconds, for at most three attempts per model request. SDK-level retries
+are disabled to avoid multiplying attempts. Other errors, including HTTP
+400/401/403/404, are not retried. Diagnostics include only HTTP codes, not raw
+API error details. Retries do not repeat already completed MCP calls or increase
+the ten-tool-request budget.
+
+The installed SDK accepts `gemini-2.5-flash`, which supports function calling.
+However, [Google's current model documentation](https://ai.google.dev/gemini-api/docs/models/gemini-2.5-flash)
+limits access to prior active users, so it is not the universal recommendation
+for this project. If your account has access, it is a suitable explicit model
+override via `GEMINI_MODEL=gemini-2.5-flash`. The existing default and all
+environment overrides are preserved; an SDK accepting a model identifier does
+not guarantee API access for that account.

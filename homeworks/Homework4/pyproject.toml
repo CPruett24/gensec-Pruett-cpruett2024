@@ -3,8 +3,10 @@ name = "homework4"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
+    "google-genai>=2.31.0",
     "mcp>=1.12,<2",
     "mcp-server-git<2",
+    "python-dotenv>=1.2.4",
 ]
 
 [dependency-groups]
