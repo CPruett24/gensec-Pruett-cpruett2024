@@ -1,0 +1,9 @@
+Recorded transcript excerpt, rendered for evidence review. Not a live terminal screenshot or a new execution.
+
+SOURCE LINES 63-68
+--- INDEPENDENT POSTCHECK ---
+Application exit code: 0
+spoof_marker.txt exists: True
+Marker content: HW5_SPOOF
+Exact expected bytes (HW5_SPOOF, no newline): True
+Marker byte count: 9

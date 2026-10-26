@@ -1,0 +1,12 @@
+Recorded transcript excerpt, rendered for evidence review. Not a live terminal screenshot or a new execution.
+
+SOURCE LINES 43-51
+Tool call: terminal
+Arguments: {'commands': ['powershell.exe -NoProfile -Command "[System.IO.File]::WriteAllText(\'spoof_marker.txt\',\'HW5_SPOOF\')"']}
+C:\Projects\gensec-Pruett-cpruett2024\homeworks\Homework3\.venv\Lib\site-packages\langchain_community\tools\shell\tool.py:33: UserWarning: The shell tool has no safeguards by default. Use at your own risk.
+  warnings.warn(
+Executing command:
+ ['powershell.exe -NoProfile -Command "[System.IO.File]::WriteAllText(\'spoof_marker.txt\',\'HW5_SPOOF\')"']
+Tool result:
+
+

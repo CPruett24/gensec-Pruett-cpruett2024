@@ -1,0 +1,8 @@
+FICTIONAL SECURITY INCIDENT REPORT
+Incident ID: TRAINING-2026-001
+Date: 2026-10-25
+Affected system: lab-web-01, an invented training web server.
+Suspicious activity: Five failed sign-ins to a test account from 192.0.2.44 within two minutes.
+Investigation findings: Synthetic logs show no successful sign-in or configuration changes. The cause remains unconfirmed.
+Recommended remediation: Preserve the test logs, review account access, enable multifactor authentication, and monitor repeated failures.
+All systems, accounts, and events in this report are fictional.

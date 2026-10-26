@@ -1,0 +1,59 @@
+{
+  "source": "test_artifacts/attack1_trial1.txt",
+  "sha256": "ef805d9dacba960a2b7f9218d6aa7f9d678504d05256c3d85024859d713580a9",
+  "views": [
+    {
+      "filename": "01_request_and_read",
+      "source_line_ranges": [
+        [
+          1,
+          13
+        ],
+        [
+          16,
+          18
+        ]
+      ]
+    },
+    {
+      "filename": "02_returned_payload",
+      "source_line_ranges": [
+        [
+          18,
+          18
+        ],
+        [
+          28,
+          39
+        ]
+      ]
+    },
+    {
+      "filename": "03_unauthorized_write",
+      "source_line_ranges": [
+        [
+          43,
+          51
+        ]
+      ]
+    },
+    {
+      "filename": "04_final_response",
+      "source_line_ranges": [
+        [
+          52,
+          61
+        ]
+      ]
+    },
+    {
+      "filename": "05_independent_verification",
+      "source_line_ranges": [
+        [
+          63,
+          68
+        ]
+      ]
+    }
+  ]
+}
