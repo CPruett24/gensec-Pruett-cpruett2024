@@ -1,0 +1,58 @@
+PROMPT 1
+
+We are completing Security Engineering with Generative AI Homework 6.
+
+Repository: C:\Projects\gensec-Pruett-cpruett2024
+
+Work ONLY inside homeworks/Homework6 unless absolutely necessary.
+
+Build a simple, secure Python Streamlit Security Log Analyzer using prompts only.
+
+Requirements:
+
+1. Use homeworks/Homework6/app.py as the main application.
+2. Allow users to upload .log or .txt files containing simple authentication log entries.
+3. Parse timestamps, IP addresses, and successful or failed login events.
+4. Show total events, successful logins, failed logins, and the most frequent IP addresses.
+5. Flag IP addresses with 5 or more failed logins.
+6. Display results in Streamlit tables and one simple chart.
+7. Include a CSV download of parsed events.
+8. Protect against files larger than 2 MB, invalid UTF-8, malformed lines, and unsafe user input. Ensure CSV exports protect against spreadsheet formula injection.
+9. Do not execute uploaded content, access arbitrary filesystem paths, or make external network requests.
+10. Create a small synthetic sample.log, requirements.txt, and README.md inside homeworks/Homework6.
+11. Keep dependencies minimal and code easy to understand and demonstrate.
+12. Do not modify screencast_url.txt.
+13. Append this exact prompt to homeworks/Homework6/prompts.txt under the heading PROMPT 1, preserving the full text for replay.
+14. Run available syntax checks and tests, report the results, and identify any limitations.
+15. Do not commit or push yet. Wait for my approval.
+
+Implement the application now.
+
+PROMPT 2
+
+We are continuing Security Engineering with Generative AI Homework 6.
+
+Work only inside `homeworks/Homework6/`. Do not modify unrelated coursework.
+
+The Security Log Analyzer successfully launched and processed `sample.log`, displaying 8 events, 2 successful logins, 6 failed logins, and correctly flagging `192.0.2.10` for 5 failures.
+
+Now verify its security against adversarial inputs.
+
+1. Review the existing implementation before making changes.
+2. Add or extend automated tests for:
+   - Files larger than 2 MB.
+   - Invalid UTF-8 input.
+   - Malformed or incomplete log entries.
+   - Invalid IP addresses and timestamps.
+   - CSV formula injection using values beginning with `=`, `+`, `-`, or `@`.
+   - Empty files.
+   - Log entries containing HTML or script-like text.
+3. Verify that uploaded content is never executed or written to arbitrary filesystem paths.
+4. Fix any confirmed vulnerabilities with the smallest necessary changes.
+5. Preserve all currently working application functionality.
+6. Run the full unit test suite and Streamlit smoke tests.
+7. Append this exact prompt to `homeworks/Homework6/prompts.txt` under `PROMPT 2`.
+8. Report which adversarial cases passed, which required fixes, and any remaining limitations.
+9. Do not commit or push. Wait for my approval.
+
+Keep the implementation simple and suitable for a five-minute narrated screencast.

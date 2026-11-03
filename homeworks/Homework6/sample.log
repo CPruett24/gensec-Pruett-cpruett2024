@@ -1,0 +1,9 @@
+2026-11-02T10:00:00Z 192.0.2.10 FAILURE
+2026-11-02T10:01:00Z 192.0.2.10 FAILURE
+2026-11-02T10:02:00Z 192.0.2.10 FAILURE
+2026-11-02T10:03:00Z 192.0.2.10 FAILURE
+2026-11-02T10:04:00Z 192.0.2.10 FAILURE
+2026-11-02T10:05:00Z 198.51.100.20 SUCCESS
+2026-11-02T10:06:00Z server sshd[123]: Accepted publickey for student from 2001:db8::1 port 50222 ssh2
+2026-11-02T10:07:00Z server sshd[123]: Failed password for invalid user guest from 203.0.113.30 port 50223 ssh2
+malformed demonstration line
